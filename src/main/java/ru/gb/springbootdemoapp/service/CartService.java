@@ -3,7 +3,7 @@ package ru.gb.springbootdemoapp.service;
 import org.springframework.stereotype.Service;
 import ru.gb.springbootdemoapp.component.Cart;
 import ru.gb.springbootdemoapp.converter.ProductMapper;
-import ru.gb.springbootdemoapp.model.Product;
+import ru.gb.springbootdemoapp.dto.ProductDto;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +21,7 @@ public class CartService {
         this.cartMap = new HashMap<>();
     }
 
-    public List<Product> getCartProducts(String userName) {
+    public List<ProductDto> getCartProducts(String userName) {
         if (!cartMap.containsKey(userName)) {
             cartMap.put(userName, new Cart());
         }
@@ -32,23 +32,12 @@ public class CartService {
         if (!cartMap.containsKey(userName)) {
             cartMap.put(userName, new Cart());
         }
-        cartMap.get(userName).addProduct(productService.findById(id));
+        cartMap.get(userName).addProduct(productMapper.productToProductDto(productService.findById(id)));
     }
 
     public void removeProductById(Long id, String userName) {
         Cart cart = cartMap.get(userName);
-        Product product = productService.findById(id);
-        int n = -1;
-        for (Product p :
-                cart.getProducts()) {
-            if (p.getId().equals(product.getId())) {
-                n = cart.getProducts().indexOf(p);
-                break;
-            }
-        }
-        System.out.println(n);
-        if (n >= 0) {
-            cart.removeProductByIndex(n);
-        }
+        ProductDto productDto = productMapper.productToProductDto(productService.findById(id));
+        cart.removeProduct(productDto);
     }
 }

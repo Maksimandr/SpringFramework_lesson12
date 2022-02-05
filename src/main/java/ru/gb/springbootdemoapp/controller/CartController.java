@@ -38,8 +38,7 @@ public class CartController {
     public String getAllCartProducts(Model model, Principal principal) {
         List<ProductDto> products;
         if (principal.getName() != null) {
-            products = cartService.getCartProducts(principal.getName()).stream()
-                    .map(productMapper::productToProductDto).collect(Collectors.toList());;
+            products = cartService.getCartProducts(principal.getName());
         } else {
             products = Collections.emptyList();
         }
