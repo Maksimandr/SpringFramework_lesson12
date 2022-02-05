@@ -25,7 +25,7 @@
 
                     <p th:text="${product.category}" class="card-text">Категория</p>
                     <p th:text="${product.price}" class="card-text mt-auto">Цена</p>
-                    <a href="#" class="btn btn-success w-100">В корзину</a>
+                    <a href="#" class="btn btn-success w-100" th:href="@{${'/cart/add/' + product.id}}">В корзину</a>
                 </div>
             </div>
         </div>
